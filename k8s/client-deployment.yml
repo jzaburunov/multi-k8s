@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 3 # 3 image for pod multi-client
+  selector:
+    matchLabels: # Selector of pods
+      component: web
+  template:
+    metadata:
+      labels: # how it suppose to identify pods
+        component: web # This apply to pods
+    spec:
+      containers:
+        - name: client
+          image: stephengrider/multi-client
+          ports:
+            - containerPort: 3000

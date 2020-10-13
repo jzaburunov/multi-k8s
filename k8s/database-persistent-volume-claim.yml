@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: persistent-volume-claim
+spec:
+  accessModes:
+    - ReadWriteOnce # need instance, that will used by 1 node at the time  ReadWrite - Many is another type of access
+  resources:
+    requests:
+      storage: 2Gi
+  # storageClassName: # we didn't use that normally, because
+  #   name: # blablabla # cloud provider will provide you with standard good option
+  #                     # you can do kubectl get / discribe storageclass

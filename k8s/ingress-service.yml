@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress # this will listen to 80 port automatically
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx # create ingress controller based on nginx project
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1 # how nginx behaves
+spec:
+  rules:
+    - http:
+        paths: # two possible situations: "/"" and "/api/"
+          - path: /?(.*)
+            backend:
+              serviceName: client-cluster-ip-service # refer to service previously created
+              servicePort: 3000
+          - path: /api/?(.*)
+            backend:
+              serviceName: server-cluster-ip-service # we need to put only name here, k8s will find IP by itself
+              servicePort: 5000
